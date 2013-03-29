@@ -1,11 +1,18 @@
 import serial
 import platform
 
+
+# Method to scan through the a list of 4 possible serial port locations
+# 1. ttyS
+# 2. ttyACM
+# 3. ttyUSB
+# 4. ttyd
+# Incrementing through the 256 possibility for each location
 def scanSerial():
     """scan for available ports. return a list of serial names"""
     available = []
     for i in range(256):
-      try: #scan standart ttyS*
+      try: #scan standard ttyS*
         s = serial.Serial(i)
         available.append(s.portstr)
         s.close()   # explicit close 'cause of delayed GC in java
