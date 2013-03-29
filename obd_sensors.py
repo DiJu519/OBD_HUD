@@ -22,42 +22,55 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ###########################################################################
 
+# Definition of methods used to preform hexadecimal conversion to human readable information
+
+
+# Converts hexadecimal 'str' into integer from 0 to 255
 def hex_to_int(str):
     i = eval("0x" + str, {}, {})
     return i
 
+# Converts argument, hexadecimal, into the Mass Air Flow sensor reading
 def maf(code):
     code = hex_to_int(code)
     return code * 0.00132276
 
+# Converts argument, hexadecimal, into the Throttle Position
 def throttle_pos(code):
     code = hex_to_int(code)
     return code * 100.0 / 255.0
 
+# Converts argument, hexadecimal, into the Intake Manifold Pressure (absolute measurement)
 def intake_m_pres(code): # in kPa
     code = hex_to_int(code)
     return code / 0.14504
-    
+
+# Converts argument, hexadecimal, into the Engine RPM
 def rpm(code):
     code = hex_to_int(code)
     return code / 4
 
+# Converts argument, hexadecimal, into the vehicle's Speed
 def speed(code):
     code = hex_to_int(code)
     return code / 1.609
 
+# Converts argument, hexadecimal, into a percentage
 def percent_scale(code):
     code = hex_to_int(code)
     return code * 100.0 / 255.0
 
+# Converts argument, hexadecimal, into the Engine Advance
 def timing_advance(code):
     code = hex_to_int(code)
     return (code - 128) / 2.0
 
+# Converts argument, hexadecimal seconds, into minutes
 def sec_to_min(code):
     code = hex_to_int(code)
     return code / 60
 
+# Coverts argument, hexadecimal, into temperature
 def temp(code):
     code = hex_to_int(code)
     return code - 40 
@@ -66,15 +79,18 @@ def cpass(code):
     #fixme
     return code
 
+# Converts argument, hexadecimal, into the Fuel Trim Percentage
 def fuel_trim_percent(code):
     code = hex_to_int(code)
     return (code - 128.0) * 100.0 / 128
 
+# Converts argument, hexadecimal, into a Diagnostic Trouble Code
 def dtc_decrypt(code):
     #first byte is byte after PID and without spaces
     num = hex_to_int(code[:2]) #A byte
     res = []
 
+    # Sets flag if Manufacturer's Indicator Light is on
     if num & 0x80: # is mil light on
         mil = 1
     else:
@@ -101,6 +117,7 @@ def dtc_decrypt(code):
     
     return res
 
+# Convert argument, hexadecimal, into a bit string
 def hex_to_bitstring(str):
     bitstring = ""
     for i in str:
@@ -125,6 +142,7 @@ def hex_to_bitstring(str):
                 bitstring += '0'                
     return bitstring
 
+# Class definition
 class Sensor:
     def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u):
         self.shortname = shortName
@@ -133,6 +151,7 @@ class Sensor:
         self.value= sensorValueFunction
         self.unit = u
 
+# List of sensors
 SENSORS = [
     Sensor("pids"                  , "          Supported PIDs", "0100", hex_to_bitstring ,""       ),    
     Sensor("dtc_status"            , "Status Since DTC Cleared", "0101", dtc_decrypt      ,""       ),    
