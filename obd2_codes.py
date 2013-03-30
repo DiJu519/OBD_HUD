@@ -21,6 +21,8 @@
 # along with pyOBD; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ###########################################################################
+
+# Dictionary of  all the Diagnostic Trouble Codes
 pcodes = {
 	"P0001": "Fuel Volume Regulator Control Circuit/Open",
 	"P0002": "Fuel Volume Regulator Control Circuit Range/Performance",
