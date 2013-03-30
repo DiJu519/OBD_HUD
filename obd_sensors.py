@@ -85,6 +85,7 @@ def fuel_trim_percent(code):
     return (code - 128.0) * 100.0 / 128
 
 # Converts argument, hexadecimal, into a Diagnostic Trouble Code
+# The same method is in obd_io.py file
 def dtc_decrypt(code):
     #first byte is byte after PID and without spaces
     num = hex_to_int(code[:2]) #A byte
@@ -151,7 +152,7 @@ class Sensor:
         self.value= sensorValueFunction
         self.unit = u
 
-# List of sensors
+# List of sensors that are able to be read through the OBD
 SENSORS = [
     Sensor("pids"                  , "          Supported PIDs", "0100", hex_to_bitstring ,""       ),    
     Sensor("dtc_status"            , "Status Since DTC Cleared", "0101", dtc_decrypt      ,""       ),    
