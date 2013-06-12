@@ -1,7 +1,6 @@
 import serial
 import platform
 
-
 # Method to scan through the a list of 4 possible serial port locations
 # 1. ttyS
 # 2. ttyACM
@@ -61,6 +60,17 @@ def scanSerial():
           available.append(s.name)
           s.close()
         except serial.SerialException:
-          pass 
+          pass
+
+    try:
+        s = serial.Serial("/dev/tty.usbserial-A1023RQP")
+        available.append(s.name)
+        s.close
+    except serial.SerialException:
+        pass
     
     return available
+
+
+test = scanSerial()
+print test

@@ -25,50 +25,18 @@
 import serial
 import string
 import time
-from math import ceil
-from datetime import datetime
-
 import obd_sensors
 
 from obd_sensors import hex_to_int
 
+# Definition of global constants
 GET_DTC_COMMAND   = "03"
 CLEAR_DTC_COMMAND = "04"
 GET_FREEZE_DTC_COMMAND = "07"
 
 from debugEvent import debug_display
 
-#__________________________________________________________________________
-def decrypt_dtc_code(code):
-    """Returns the 5-digit DTC code from hex encoding"""
-    dtc = []
-    current = code
-    for i in range(0,3):
-        if len(current)<4:
-            raise "Tried to decode bad DTC: %s" % code
-
-        tc = obd_sensors.hex_to_int(current[0]) #typecode
-        tc = tc >> 2
-        if   tc == 0:
-            type = "P"
-        elif tc == 1:
-            type = "C"
-        elif tc == 2:
-            type = "B"
-        elif tc == 3:
-            type = "U"
-        else:
-            raise tc
-
-        dig1 = str(obd_sensors.hex_to_int(current[0]) & 3)
-        dig2 = str(obd_sensors.hex_to_int(current[1]))
-        dig3 = str(obd_sensors.hex_to_int(current[2]))
-        dig4 = str(obd_sensors.hex_to_int(current[3]))
-        dtc.append(type+dig1+dig2+dig3+dig4)
-        current = current[4:]
-    return dtc
-#__________________________________________________________________________
-
+# Class to create the connection and handles all communication with the OBD port
 class OBDPort:
      """ OBDPort abstracts all communication with OBD-II device."""
      def __init__(self,portnum,_notify_window,SERTIMEOUT,RECONNATTEMPTS):
@@ -82,30 +50,41 @@ class OBDPort:
          self.ELMver = "Unknown"
          self.State = 1 #state SERIAL is 1 connected, 0 disconnected (connection failed)
          self.port = None
-         
+
+         # Display connection in a notification window, if supplied in arguments
          self._notify_window=_notify_window
          debug_display(self._notify_window, 1, "Opening interface (serial port)")
 
+        # Attempt to connect to the serial port, with the specified parameters
          try:
              self.port = serial.Serial(portnum,baud, \
              parity = par, stopbits = sb, bytesize = databits,timeout = to)
-             
+
+        # Connection failed, set state to zero and return 'None'
          except serial.SerialException as e:
              print e
              self.State = 0
              return None
-             
+
+        # Display the connection has been successful in the window
          debug_display(self._notify_window, 1, "Interface successfully " + self.port.portstr + " opened")
          debug_display(self._notify_window, 1, "Connecting to ECU...")
-         
+
+         # Attempt to send an initialize command to the OBD
          try:
             self.send_command("atz")   # initialize
             time.sleep(1)
+         # Command failed, set state to zero and return 'None'
          except serial.SerialException:
             self.State = 0
             return None
-            
+
+         # Set the value of ELMver
+         # The version will be stored in the buffer from
+         # sending the 'atz' command
          self.ELMver = self.get_result()
+         # Verify the version is not 'None'
+         # if 'None' is returned set the state to zero and return 'None'
          if(self.ELMver is None):
             self.State = 0
             return None
@@ -122,7 +101,8 @@ class OBDPort:
             
          debug_display(self._notify_window, 2, "0100 response:" + ready)
          return None
-              
+
+    # Method to close the OBD port
      def close(self):
          """ Resets device and closes all associated filehandles"""
          
@@ -133,16 +113,23 @@ class OBDPort:
          self.port = None
          self.ELMver = "Unknown"
 
+    # Method to send a command to the OBD port
      def send_command(self, cmd):
          """Internal use only: not a public interface"""
+
+         # Verify a port is connected
          if self.port:
+             # Clear the input and the output buffers
              self.port.flushOutput()
              self.port.flushInput()
+
+             # Loop to increment through the commands, and write each to the serial port
              for c in cmd:
                  self.port.write(c)
              self.port.write("\r\n")
              #debug_display(self._notify_window, 3, "Send command:" + cmd)
 
+     # Method to  interpret the codes sent to the logger from the OBD
      def interpret_result(self,code):
          """Internal use only: not a public interface"""
          # Code will be the string returned from the device.
@@ -158,24 +145,30 @@ class OBDPort:
          code = string.split(code, "\r")
          code = code[0]
          
-         #remove whitespace
+         # remove whitespace
          code = string.split(code)
          code = string.join(code, "")
          
-         #cables can behave differently 
+         # cables can behave differently
          if code[:6] == "NODATA": # there is no such sensor
              return "NODATA"
              
          # first 4 characters are code from ELM
          code = code[4:]
          return code
-    
+
+    # Method to collect data from the incoming buffer
      def get_result(self):
          """Internal use only: not a public interface"""
          #time.sleep(0.01)
          repeat_count = 0
+
+         # Verify a port is connected
          if self.port is not None:
              buffer = ""
+
+             # Loop to increment through the buffer one bit at a time
+             # building the contents of the buffer in the buffer variable
              while 1:
                  c = self.port.read(1)
                  if len(c) == 0:
@@ -202,14 +195,21 @@ class OBDPort:
             debug_display(self._notify_window, 3, "NO self.port!")
          return None
 
-     # get sensor value from command
+     # Method to get the sensor value
      def get_sensor_value(self,sensor):
          """Internal use only: not a public interface"""
          cmd = sensor.cmd
+
+         # Send the command to the OBD
          self.send_command(cmd)
+
+         # Receive the results from the OBD
          data = self.get_result()
-         
+
+         # Verify something was received from the OBD
          if data:
+
+             # Interpret the data into a string
              data = self.interpret_result(data)
              if data != "NODATA":
                  data = sensor.value(data)
@@ -219,20 +219,24 @@ class OBDPort:
          return data
 
      # return string of sensor name and value from sensor index
-     def sensor(self , sensor_index):
+     def sensor(self, sensor_index):
          """Returns 3-tuple of given sensors. 3-tuple consists of
          (Sensor Name (string), Sensor Value (string), Sensor Unit (string) ) """
          sensor = obd_sensors.SENSORS[sensor_index]
          r = self.get_sensor_value(sensor)
          return (sensor.name,r, sensor.unit)
 
+     # Method to return a list of all the sensor names
      def sensor_names(self):
          """Internal use only: not a public interface"""
          names = []
          for s in obd_sensors.SENSORS:
              names.append(s.name)
          return names
-         
+
+     # Unsure what this method is for, I believe it is to track the
+     # Manufacturers Indicator Lights, but it is not called in the
+     # project
      def get_tests_MIL(self):
          statusText=["Unsupported","Supported - Completed","Unsupported","Supported - Incompleted"]
          
@@ -303,7 +307,8 @@ class OBDPort:
               DTCCodes.append(["Passive",DTCStr])
               
           return DTCCodes
-              
+
+     # Method to clear the Diagnostic Trouble Code
      def clear_dtc(self):
          """Clears all DTCs and freeze frame data"""
          self.send_command(CLEAR_DTC_COMMAND)     
