@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9585d17f-2ff8-4f1e-b64f-709d518d3e50" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obd_io.py" afterPath="$PROJECT_DIR$/obd_io.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obd_recorder.py" afterPath="$PROJECT_DIR$/obd_recorder.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obd_sensors.py" afterPath="$PROJECT_DIR$/obd_sensors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/obd_utils.py" afterPath="$PROJECT_DIR$/obd_utils.py" />
-    </list>
+    <list default="true" id="9585d17f-2ff8-4f1e-b64f-709d518d3e50" name="Default" comment="" />
     <ignored path="pyobd.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="9585d17f-2ff8-4f1e-b64f-709d518d3e50" time="1370224431301" ignored="false" />
+    <file path="/Dummy.txt" changelist="9585d17f-2ff8-4f1e-b64f-709d518d3e50" time="1371076584277" ignored="false" />
     <file path="/obd_recorder.py" changelist="9585d17f-2ff8-4f1e-b64f-709d518d3e50" time="1370224710432" ignored="false" />
     <file path="/obd_sensors.py" changelist="9585d17f-2ff8-4f1e-b64f-709d518d3e50" time="1367200608066" ignored="false" />
     <file path="/obd_utils.py" changelist="9585d17f-2ff8-4f1e-b64f-709d518d3e50" time="1370224468429" ignored="false" />
@@ -40,7 +35,7 @@
       <file leaf-file-name="obd_recorder.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/obd_recorder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="194" column="18" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.40108892">
+            <state line="194" column="18" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.6146789">
               <folding />
             </state>
           </provider>
@@ -120,7 +115,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -141,18 +135,19 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pdf_Merger" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RasPiWrite" />
     <property name="FullScreen" value="true" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -219,6 +214,26 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pyobd" />
       <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="pyobd" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
     <list size="1">
@@ -310,11 +325,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1779053" sideWeight="0.7363184" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18077475" sideWeight="0.7363184" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2636816" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2636034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -475,7 +490,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/obd_recorder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="18" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.40108892">
+        <state line="194" column="18" selection-start="9377" selection-end="9377" vertical-scroll-proportion="0.6146789">
           <folding />
         </state>
       </provider>
