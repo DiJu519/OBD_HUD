@@ -1,6 +1,6 @@
  #!/usr/bin/env python
 ###########################################################################
-# obd_sensors.py
+# debugEvent.py
 #
 # Copyright 2004 Donour Sizemore (donour@uchicago.edu)
 # Copyright 2009 Secons Ltd. (www.obdtester.com)
