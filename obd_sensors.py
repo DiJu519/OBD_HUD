@@ -126,26 +126,26 @@ def dtc_decrypt(code):
         mil = 1
     else:
         mil = 0
-        
-    # bit 0-6 are the number of dtc's. 
+
+    # bit 0-6 are the number of dtc's.
     num = num & 0x7f
-    
+
     res.append(num)
     res.append(mil)
-    
+
     numB = hex_to_int(code[2:4]) #B byte
-      
+
     for i in range(0,3):
         res.append(((numB>>i)&0x01)+((numB>>(3+i))&0x02))
-    
+
     numC = hex_to_int(code[4:6]) #C byte
     numD = hex_to_int(code[6:8]) #D byte
-       
+
     for i in range(0,7):
         res.append(((numC>>i)&0x01)+(((numD>>i)&0x01)<<1))
-    
-    res.append(((numD>>7)&0x01)) #EGR SystemC7  bit of different 
-    
+
+    res.append(((numD>>7)&0x01)) #EGR SystemC7  bit of different
+
     return res
 
 # Convert argument, hexadecimal, into a bit string
@@ -153,7 +153,7 @@ def hex_to_bitstring(str):
     bitstring = ""
     for i in str:
         # silly type safety, we don't want to eval random stuff
-        if type(i) == type(''): 
+        if type(i) == type(''):
             v = eval("0x%s" % i)
             if v & 8 :
                 bitstring += '1'
@@ -170,7 +170,7 @@ def hex_to_bitstring(str):
             if v & 1:
                 bitstring += '1'
             else:
-                bitstring += '0'                
+                bitstring += '0'
     return bitstring
 
 # Sensor class definition
@@ -184,9 +184,9 @@ class Sensor:
 
 # List of sensors that are able to be read through the OBD
 SENSORS = [
-    Sensor("pids"                  , "          Supported PIDs", "0100", hex_to_bitstring ,""       ),    
-    Sensor("dtc_status"            , "Status Since DTC Cleared", "0101", dtc_decrypt      ,""       ),    
-    Sensor("dtc_ff"                , "DTC Causing Freeze Frame", "0102", cpass            ,""       ),    
+    Sensor("pids"                  , "          Supported PIDs", "0100", hex_to_bitstring ,""       ),
+    Sensor("dtc_status"            , "Status Since DTC Cleared", "0101", dtc_decrypt      ,""       ),
+    Sensor("dtc_ff"                , "DTC Causing Freeze Frame", "0102", cpass            ,""       ),
     Sensor("fuel_status"           , "      Fuel System Status", "0103", cpass            ,""       ),
     Sensor("load"                  , "   Calculated Load Value", "0104", percent_scale    ,"%"      ),
     Sensor("temp"                  , "     Coolant Temperature", "0105", temp             ,"C"      ),

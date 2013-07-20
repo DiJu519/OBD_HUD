@@ -82,7 +82,7 @@ class OBD_Recorder():
                 self.sensorlist.append(index)
                 print "Logging item: " + e.name
                 break
-            
+
      # Method to record data
     def record_data(self):
         # Verify that there is an open port, if there is no port available, return "None"
@@ -140,15 +140,15 @@ class OBD_Recorder():
 
         primary_gear = 85/46 #street triple
         final_drive  = 47/16
-        
+
         tyre_circumference = 1.978 #meters
 
         # Calculate the current ratio
         current_gear_ratio = (rps*tyre_circumference)/(mps*primary_gear*final_drive)
-        
+
         print current_gear_ratio
         # Determine current gear
-        gear = min((abs(current_gear_ratio - i), i) for i in self.gear_ratios)[1] 
+        gear = min((abs(current_gear_ratio - i), i) for i in self.gear_ratios)[1]
         return gear
 
 """

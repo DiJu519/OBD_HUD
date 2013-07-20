@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ###########################################################################
 # odb_io.py
-# 
+#
 # Copyright 2004 Donour Sizemore (donour@uchicago.edu)
 # Copyright 2009 Secons Ltd. (www.obdtester.com)
 #
@@ -88,28 +88,28 @@ class OBDPort:
          if(self.ELMver is None):
             self.State = 0
             return None
-         
+
          debug_display(self._notify_window, 2, "atz response:" + self.ELMver)
          self.send_command("ate0")  # echo off
          debug_display(self._notify_window, 2, "ate0 response:" + self.get_result())
          self.send_command("0100")
          ready = self.get_result()
-         
+
          if(ready is None):
             self.State = 0
             return None
-            
+
          debug_display(self._notify_window, 2, "0100 response:" + ready)
          return None
 
     # Method to close the OBD port
      def close(self):
          """ Resets device and closes all associated filehandles"""
-         
+
          if (self.port!= None) and self.State==1:
             self.send_command("atz")
             self.port.close()
-         
+
          self.port = None
          self.ELMver = "Unknown"
 
@@ -135,24 +135,24 @@ class OBDPort:
          # Code will be the string returned from the device.
          # It should look something like this:
          # '41 11 0 0\r\r'
-         
+
          # 9 seems to be the length of the shortest valid response
          if len(code) < 7:
              #raise Exception("BogusCode")
              print "boguscode?"+code
-         
+
          # get the first thing returned, echo should be off
          code = string.split(code, "\r")
          code = code[0]
-         
+
          # remove whitespace
          code = string.split(code)
          code = string.join(code, "")
-         
+
          # cables can behave differently
          if code[:6] == "NODATA": # there is no such sensor
              return "NODATA"
-             
+
          # first 4 characters are code from ELM
          code = code[4:]
          return code
@@ -177,16 +177,16 @@ class OBDPort:
                     print "Got nothing\n"
                     repeat_count = repeat_count + 1
                     continue
-                    
+
                  if c == '\r':
                     continue
-                    
+
                  if c == ">":
                     break;
-                     
+
                  if buffer != "" or c != ">": #if something is in buffer, add everything
                     buffer = buffer + c
-                    
+
              #debug_display(self._notify_window, 3, "Get result:" + buffer)
              if(buffer == ""):
                 return None
@@ -215,7 +215,7 @@ class OBDPort:
                  data = sensor.value(data)
          else:
              return "NORESPONSE"
-             
+
          return data
 
      # return string of sensor name and value from sensor index
@@ -239,22 +239,22 @@ class OBDPort:
      # project
      def get_tests_MIL(self):
          statusText=["Unsupported","Supported - Completed","Unsupported","Supported - Incompleted"]
-         
+
          statusRes = self.sensor(1)[1] #GET values
          statusTrans = [] #translate values to text
-         
+
          statusTrans.append(str(statusRes[0])) #DTCs
-         
+
          if statusRes[1]==0: #MIL
             statusTrans.append("Off")
          else:
             statusTrans.append("On")
-            
+
          for i in range(2,len(statusRes)): #Tests
-              statusTrans.append(statusText[statusRes[i]]) 
-         
+              statusTrans.append(statusText[statusRes[i]])
+
          return statusTrans
-          
+
      #
      # fixme: j1979 specifies that the program should poll until the number
      # of returned DTCs matches the number indicated by a call to PID 01
@@ -267,8 +267,8 @@ class OBDPort:
           dtcNumber = r[0]
           mil = r[1]
           DTCCodes = []
-          
-          
+
+
           print "Number of stored DTC:" + str(dtcNumber) + " MIL: " + str(mil)
           # get all DTC, 3 per mesg response
           for i in range(0, ((dtcNumber+2)/3)):
@@ -279,53 +279,53 @@ class OBDPort:
                 val1 = hex_to_int(res[3+i*6:5+i*6])
                 val2 = hex_to_int(res[6+i*6:8+i*6]) #get DTC codes from response (3 DTC each 2 bytes)
                 val  = (val1<<8)+val2 #DTC val as int
-                
+
                 if val==0: #skip fill of last packet
                   break
-                   
+
                 DTCStr=dtcLetters[(val&0xC000)>14]+str((val&0x3000)>>12)+str((val&0x0f00)>>8)+str((val&0x00f0)>>4)+str(val&0x000f)
-                
+
                 DTCCodes.append(["Active",DTCStr])
-          
+
           #read mode 7
           self.send_command(GET_FREEZE_DTC_COMMAND)
           res = self.get_result()
-          
+
           if res[:7] == "NO DATA": #no freeze frame
             return DTCCodes
-          
+
           print "DTC freeze result:" + res
           for i in range(0, 3):
               val1 = hex_to_int(res[3+i*6:5+i*6])
               val2 = hex_to_int(res[6+i*6:8+i*6]) #get DTC codes from response (3 DTC each 2 bytes)
               val  = (val1<<8)+val2 #DTC val as int
-                
+
               if val==0: #skip fill of last packet
                 break
-                   
+
               DTCStr=dtcLetters[(val&0xC000)>14]+str((val&0x3000)>>12)+str((val&0x0f00)>>8)+str((val&0x00f0)>>4)+str(val&0x000f)
               DTCCodes.append(["Passive",DTCStr])
-              
+
           return DTCCodes
 
      # Method to clear the Diagnostic Trouble Code
      def clear_dtc(self):
          """Clears all DTCs and freeze frame data"""
-         self.send_command(CLEAR_DTC_COMMAND)     
+         self.send_command(CLEAR_DTC_COMMAND)
          r = self.get_result()
          return r
-     
-     def log(self, sensor_index, filename): 
+
+     def log(self, sensor_index, filename):
           file = open(filename, "w")
-          start_time = time.time() 
+          start_time = time.time()
           if file:
                data = self.sensor(sensor_index)
                file.write("%s     \t%s(%s)\n" % \
-                         ("Time", string.strip(data[0]), data[2])) 
+                         ("Time", string.strip(data[0]), data[2]))
                while 1:
                     now = time.time()
                     data = self.sensor(sensor_index)
                     line = "%.6f,\t%s\n" % (now - start_time, data[1])
                     file.write(line)
                     file.flush()
-          
+

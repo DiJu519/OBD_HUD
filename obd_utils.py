@@ -49,7 +49,7 @@ def scanSerial():
         s.close()   # explicit close 'cause of delayed GC in java
       except serial.SerialException:
         pass
-        
+
     # ELM-USB shows up as /dev/tty.usbmodemXXXX, where XXXX is a changing hex string
     # on connection; so we have to search through all 64K options
     if len(platform.mac_ver()[0])!=0:  #search only on MAC
@@ -68,7 +68,7 @@ def scanSerial():
         s.close
     except serial.SerialException:
         pass
-    
+
     return available
 
 
