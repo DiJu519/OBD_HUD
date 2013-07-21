@@ -172,7 +172,7 @@ class OBDPort:
              while 1:
                  c = self.port.read(1)
                  if len(c) == 0:
-                    if(repeat_count == 5):
+                    if repeat_count == 5:
                         break
                     print "Got nothing\n"
                     repeat_count = repeat_count + 1
@@ -196,7 +196,7 @@ class OBDPort:
          return None
 
      # Method to get the sensor value
-     def get_sensor_value(self,sensor):
+     def get_sensor_value(self, sensor):
          """Internal use only: not a public interface"""
          cmd = sensor.cmd
 
@@ -222,9 +222,10 @@ class OBDPort:
      def sensor(self, sensor_index):
          """Returns 3-tuple of given sensors. 3-tuple consists of
          (Sensor Name (string), Sensor Value (string), Sensor Unit (string) ) """
+         print(sensor_index)
          sensor = obd_sensors.SENSORS[sensor_index]
          r = self.get_sensor_value(sensor)
-         return (sensor.name,r, sensor.unit)
+         return (sensor.name, r, sensor.unit)
 
      # Method to return a list of all the sensor names
      def sensor_names(self):

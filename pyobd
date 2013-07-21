@@ -108,20 +108,20 @@ class MyApp(wx.App):
             ListCtrlAutoWidthMixin.__init__(self)
 
     class sensorProducer(threading.Thread):
-        def __init__(self, _notify_window,portName,SERTIMEOUT,RECONNATTEMPTS,_nb):
+        def __init__(self, _notify_window, portName, SERTIMEOUT, RECONNATTEMPTS, _nb):
             from Queue import Queue
             self.portName = portName
-            self.RECONNATTEMPTS=RECONNATTEMPTS
-            self.SERTIMEOUT=SERTIMEOUT
+            self.RECONNATTEMPTS = RECONNATTEMPTS
+            self.SERTIMEOUT = SERTIMEOUT
             self.port = None
-            self._notify_window=_notify_window
-            self._nb=_nb
-            threading.Thread.__init__ ( self )
+            self._notify_window = _notify_window
+            self._nb = _nb
+            threading.Thread.__init__(self)
 
         def initCommunication(self):
-            self.port     = obd_io.OBDPort(self.portName,self._notify_window,self.SERTIMEOUT,self.RECONNATTEMPTS)
+            self.port = obd_io.OBDPort(self.portName, self._notify_window, self.SERTIMEOUT, self.RECONNATTEMPTS)
 
-            if self.port.State==0: #Cant open serial port
+            if self.port.State == 0: #Cant open serial port
                 return None
 
             self.active   = []
@@ -154,12 +154,12 @@ class MyApp(wx.App):
             wx.PostEvent(self._notify_window, StatusEvent([2,1,self.port.ELMver]))
             prevstate=-1
             curstate=-1
-            while self._notify_window.ThreadControl!=666:
+            while self._notify_window.ThreadControl != 666:
                 prevstate=curstate
                 curstate=self._nb.GetSelection()
-                if curstate==0: #show status tab
+                if curstate == 0: #show status tab
                   pass
-                elif curstate==1: #show tests tab
+                elif curstate == 1: #show tests tab
                   res=self.port.get_tests_MIL()
                   for i in range(0,len(res)):
                     wx.PostEvent(self._notify_window, TestEvent([i,1,res[i]]))
@@ -341,21 +341,19 @@ class MyApp(wx.App):
         #read settings from file
         self.config = ConfigParser.RawConfigParser()
 
-        #print platform.system()
-        #print platform.mac_ver()[]
-
         if "OS" in os.environ.keys(): #runnig under windows
-          self.configfilepath="pyobd.ini"
+			self.configfilepath = "pyobd.ini"
         else:
-          self.configfilepath=os.environ['HOME']+'/.pyobdrc'
-        if self.config.read(self.configfilepath)==[]:
-          self.COMPORT="/dev/ttyACM0"
-          self.RECONNATTEMPTS=5
-          self.SERTIMEOUT=2
+			self.configfilepath = os.environ['HOME'] + '/.pyobdrc'
+
+        if self.config.read(self.configfilepath) == []:
+            self.COMPORT = "/dev/ttyACM0"
+            self.RECONNATTEMPTS = 5
+            self.SERTIMEOUT = 2
         else:
-          self.COMPORT=self.config.get("pyOBD","COMPORT")
-          self.RECONNATTEMPTS=self.config.getint("pyOBD","RECONNATTEMPTS")
-          self.SERTIMEOUT=self.config.getint("pyOBD","SERTIMEOUT")
+            self.COMPORT = self.config.get("pyOBD", "COMPORT")
+            self.RECONNATTEMPTS = self.config.getint("pyOBD", "RECONNATTEMPTS")
+            self.SERTIMEOUT = self.config.getint("pyOBD", "SERTIMEOUT")
 
         frame = wx.Frame(None, -1, "pyOBD-II")
         self.frame=frame
@@ -592,7 +590,7 @@ the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  0211
         self.ThreadControl=1
         self.nb.SetSelection(3)
 
-    def Configure(self,e = None):
+    def Configure(self, e = None):
         id = 0
         diag = wx.Dialog(self.frame, id, title="Configure")
         sizer = wx.BoxSizer(wx.VERTICAL)

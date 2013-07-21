@@ -178,8 +178,8 @@ class Sensor:
     def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u):
         self.shortname = shortName
         self.name = sensorName
-        self.cmd  = sensorcommand
-        self.value= sensorValueFunction
+        self.cmd = sensorcommand
+        self.value = sensorValueFunction
         self.unit = u
 
 # List of sensors that are able to be read through the OBD
