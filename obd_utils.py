@@ -2,10 +2,11 @@ import serial
 import platform
 
 # Method to scan through the a list of 4 possible serial port locations
-# 1. ttyS
-# 2. ttyACM
-# 3. ttyUSB
-# 4. ttyd
+# 1. rfcomm
+# 2. ttyS
+# 3. ttyACM
+# 4. ttyUSB
+# 5. ttyd
 # Incrementing through the 256 possibility for each location
 def scanSerial():
     """scan for available ports. return a list of serial names"""
@@ -21,6 +22,13 @@ def scanSerial():
 
         #If trying to open the port throws an exception, the port is not available and pass
 
+    for i in range(256):
+      try: #scan bluetooth rfcomm
+        s = serial.Serial("/dev/rfcomm" + str(i))
+        available.append(s.name)
+        s.close()   # explicit close 'cause of delayed GC in java
+      except serial.SerialException:
+        pass
     for i in range(256):
       try: #scan standard ttyS*
         s = serial.Serial(i)
