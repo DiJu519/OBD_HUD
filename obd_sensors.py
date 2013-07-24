@@ -24,60 +24,54 @@
 
 # Definition of methods used to preform hexadecimal conversion to human readable information
 
-
-# Converts hexadecimal 'str' into integer from 0 to 255
-def hex_to_int(str):
-    i = eval("0x" + str, {}, {})
-    return i
-
 # Converts argument, hexadecimal, into the Mass Air Flow sensor reading
 def maf(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code * 0.00132276
 
 # Converts argument, hexadecimal, into the Throttle Position
 def throttle_pos(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code * 100.0 / 255.0
 
 # Converts argument, hexadecimal, into the Intake Manifold Pressure (absolute measurement)
 def intake_m_pres(code): # in kPa
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code / 0.14504
 
 # Converts argument, hexadecimal, into the Engine RPM
 def rpm(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code / 4
 
 # Converts argument, hexadecimal, into the vehicle's Speed
 def speed(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code * .621371
 
 # Converts argument, hexadecimal, into a percentage
 def percent_scale(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code * 100.0 / 255.0
 
 # Converts argument, hexadecimal, into the Engine Advance
 def timing_advance(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return (code - 128) / 2.0
 
 # Converts argument, hexadecimal seconds, into minutes
 def sec_to_min(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code / 60
 
 # Coverts argument, hexadecimal, into temperature
 def temp(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code - 40
 
 # Converts argument, hexadecimal, onto fuel pressure
 def fuel_pres(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return code * 3
 
 def cpass(code):
@@ -86,7 +80,7 @@ def cpass(code):
 
 # Converts argument, hexadecimal, into PTO status
 def pto_status(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     if code is 1:
         return code
     else:
@@ -102,12 +96,12 @@ def compliance(code):
 
 # Converts argument, hexadecimal, into the Fuel Trim Percentage
 def fuel_trim_percent(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     return (code - 128.0) * 100.0 / 128
 
 # Converts argument, hexadecimal, into 0^2 sensor locations
 def sensor_pos(code):
-    code = hex_to_int(code)
+    code = int(code, 16)
     if(code >= 160 and code <= 163):
         return 'Bank 1'
     elif(code >= 164 and code <= 167):
@@ -118,7 +112,7 @@ def sensor_pos(code):
 # Converts argument, hexadecimal, into a Diagnostic Trouble Code
 def dtc_decrypt(code):
     #first byte is byte after PID and without spaces
-    num = hex_to_int(code[:2]) #A byte
+    num = int(code[:2], 16) #A byte
     res = []
 
     # Sets flag if Manufacturer's Indicator Light is on
@@ -133,45 +127,23 @@ def dtc_decrypt(code):
     res.append(num)
     res.append(mil)
 
-    numB = hex_to_int(code[2:4]) #B byte
+    numB = int(code[2:4], 16) #B byte
 
     for i in range(0,3):
         res.append(((numB>>i)&0x01)+((numB>>(3+i))&0x02))
 
-    numC = hex_to_int(code[4:6]) #C byte
-    numD = hex_to_int(code[6:8]) #D byte
+    numC = int(code[4:6], 16) #C byte
+    numD = int(code[6:8], 16) #D byte
 
     for i in range(0,7):
         res.append(((numC>>i)&0x01)+(((numD>>i)&0x01)<<1))
-
     res.append(((numD>>7)&0x01)) #EGR SystemC7  bit of different
 
     return res
 
-# Convert argument, hexadecimal, into a bit string
-def hex_to_bitstring(str):
-    bitstring = ""
-    for i in str:
-        # silly type safety, we don't want to eval random stuff
-        if type(i) == type(''):
-            v = eval("0x%s" % i)
-            if v & 8 :
-                bitstring += '1'
-            else:
-                bitstring += '0'
-            if v & 4:
-                bitstring += '1'
-            else:
-                bitstring += '0'
-            if v & 2:
-                bitstring += '1'
-            else:
-                bitstring += '0'
-            if v & 1:
-                bitstring += '1'
-            else:
-                bitstring += '0'
-    return bitstring
+# Convert argument, hexadecimal string, into a bit string
+def hex_to_bitstring(hex_str):
+    return '{0:08b}'.format(int(hex_str, 16))
 
 # Sensor class definition
 class Sensor:
