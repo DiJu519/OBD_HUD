@@ -66,35 +66,35 @@ def EVT_RESULT(win, func, id):
     win.Connect(-1, -1, id, func)
 
 class ResultEvent(wx.PyEvent):
-   """Simple event to carry arbitrary result data."""
-   def __init__(self, data):
-       wx.PyEvent.__init__(self)
-       self.SetEventType(EVT_RESULT_ID)
-       self.data = data
+    """Simple event to carry arbitrary result data."""
+    def __init__(self, data):
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_RESULT_ID)
+        self.data = data
 
 EVT_DTC_ID = 1001
 class DTCEvent(wx.PyEvent):
-   """Simple event to carry DTC data."""
-   def __init__(self, data):
-       wx.PyEvent.__init__(self)
-       self.SetEventType(EVT_DTC_ID)
-       self.data = data
+    """Simple event to carry DTC data."""
+    def __init__(self, data):
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_DTC_ID)
+        self.data = data
 
 EVT_STATUS_ID = 1002
 class StatusEvent(wx.PyEvent):
-   """Simple event to carry status data."""
-   def __init__(self, data):
-       wx.PyEvent.__init__(self)
-       self.SetEventType(EVT_STATUS_ID)
-       self.data = data
+    """Simple event to carry status data."""
+    def __init__(self, data):
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_STATUS_ID)
+        self.data = data
 
 EVT_TESTS_ID = 1003
 class TestEvent(wx.PyEvent):
-   """Simple event to carry test result data."""
-   def __init__(self, data):
-       wx.PyEvent.__init__(self)
-       self.SetEventType(EVT_TESTS_ID)
-       self.data = data
+    """Simple event to carry test result data."""
+    def __init__(self, data):
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_TESTS_ID)
+        self.data = data
 
 #defines notification event for debug tracewindow
 from debugEvent import *
@@ -145,10 +145,10 @@ class MyApp(wx.App):
             wx.PostEvent(self._notify_window, StatusEvent([0,1,"Connecting...."]))
             self.initCommunication()
             if self.port.State==0: #cant connect, exit thread
-              self.stop()
-              wx.PostEvent(self._notify_window, StatusEvent([666])) #signal apl, that communication was disconnected
-              wx.PostEvent(self._notify_window, StatusEvent([0,1,"Error cant connect..."]))
-              return None
+                self.stop()
+                wx.PostEvent(self._notify_window, StatusEvent([666])) #signal apl, that communication was disconnected
+                wx.PostEvent(self._notify_window, StatusEvent([0,1,"Error cant connect..."]))
+                return None
 
             wx.PostEvent(self._notify_window, StatusEvent([0,1,"Connected"]))
             wx.PostEvent(self._notify_window, StatusEvent([2,1,self.port.ELMver]))
@@ -158,44 +158,44 @@ class MyApp(wx.App):
                 prevstate=curstate
                 curstate=self._nb.GetSelection()
                 if curstate == 0: #show status tab
-                  pass
+                    pass
                 elif curstate == 1: #show tests tab
-                  res=self.port.get_tests_MIL()
-                  for i in range(0,len(res)):
-                    wx.PostEvent(self._notify_window, TestEvent([i,1,res[i]]))
+                    res=self.port.get_tests_MIL()
+                    for i in range(0,len(res)):
+                        wx.PostEvent(self._notify_window, TestEvent([i,1,res[i]]))
 
                 elif curstate==2: #show sensor tab
-                  for i in range(3, len(self.active)):
-                      if self.active[i]:
-                          s = self.port.sensor(i)
-                          wx.PostEvent(self._notify_window, ResultEvent([i,2,"%s (%s)" % (s[1], s[2])]))
-                      if self._notify_window.ThreadControl==666:
-                          break
+                    for i in range(3, len(self.active)):
+                        if self.active[i]:
+                            s = self.port.sensor(i)
+                            wx.PostEvent(self._notify_window, ResultEvent([i,2,"%s (%s)" % (s[1], s[2])]))
+                        if self._notify_window.ThreadControl==666:
+                            break
                 elif curstate==3: #show DTC tab
-                  if self._notify_window.ThreadControl == 1: #clear DTC
-                      self.port.clear_dtc()
+                    if self._notify_window.ThreadControl == 1: #clear DTC
+                        self.port.clear_dtc()
 
-                      if self._notify_window.ThreadControl==666: #before reset ThreadControl we must check if main thread did not want us to finish
-                          break
+                        if self._notify_window.ThreadControl==666: #before reset ThreadControl we must check if main thread did not want us to finish
+                            break
 
-                      self._notify_window.ThreadControl=0
-                      prevstate=-1 # to reread DTC
-                  if self._notify_window.ThreadControl == 2: #reread DTC
-                      prevstate=-1
+                        self._notify_window.ThreadControl=0
+                        prevstate=-1 # to reread DTC
+                    if self._notify_window.ThreadControl == 2: #reread DTC
+                        prevstate=-1
 
-                      if self._notify_window.ThreadControl==666:
-                          break
+                        if self._notify_window.ThreadControl==666:
+                            break
 
-                      self._notify_window.ThreadControl=0
-                  if prevstate!=3:
-                    wx.PostEvent(self._notify_window, DTCEvent(0)) #clear list
-                    DTCCodes=self.port.get_dtc()
-                    if len(DTCCodes)==0:
-                      wx.PostEvent(self._notify_window, DTCEvent(["","","No DTC codes (codes cleared)"]))
-                    for i in range (0,len(DTCCodes)):
-                      wx.PostEvent(self._notify_window, DTCEvent([DTCCodes[i][1],DTCCodes[i][0],pcodes[DTCCodes[i][1]]]))
+                        self._notify_window.ThreadControl=0
+                    if prevstate!=3:
+                        wx.PostEvent(self._notify_window, DTCEvent(0)) #clear list
+                        DTCCodes=self.port.get_dtc()
+                        if len(DTCCodes)==0:
+                            wx.PostEvent(self._notify_window, DTCEvent(["","","No DTC codes (codes cleared)"]))
+                        for i in range (0,len(DTCCodes)):
+                            wx.PostEvent(self._notify_window, DTCEvent([DTCCodes[i][1],DTCCodes[i][0],pcodes[DTCCodes[i][1]]]))
                 else:
-                 pass
+                    pass
             self.stop()
 
         def off(self, id):
@@ -218,7 +218,7 @@ class MyApp(wx.App):
 
         def stop(self):
             if self.port != None: #if stop is called before any connection port is not defined (and not connected )
-              self.port.close()
+                self.port.close()
             wx.PostEvent(self._notify_window, StatusEvent([0,1,"Disconnected"]))
             wx.PostEvent(self._notify_window, StatusEvent([2,1,"----"]))
 
@@ -342,9 +342,9 @@ class MyApp(wx.App):
         self.config = ConfigParser.RawConfigParser()
 
         if "OS" in os.environ.keys(): #runnig under windows
-			self.configfilepath = "pyobd.ini"
+            self.configfilepath = "pyobd.ini"
         else:
-			self.configfilepath = os.environ['HOME'] + '/.pyobdrc'
+            self.configfilepath = os.environ['HOME'] + '/.pyobdrc'
 
         if self.config.read(self.configfilepath) == []:
             self.COMPORT = "/dev/ttyACM0"
@@ -383,7 +383,7 @@ class MyApp(wx.App):
         self.nb.AddPage(self.OBDTests, "Tests")
 
         for i in range(0,len(ptest)): #fill MODE 1 PID 1 test description
-          self.OBDTests.Append([ptest[i],"---"]);
+            self.OBDTests.Append([ptest[i],"---"]);
 
         self.build_sensor_page()
 
@@ -505,9 +505,9 @@ the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  0211
 
     def OnDtc(self,event):
         if event.data == 0: #signal, that DTC was cleared
-          self.dtc.DeleteAllItems()
+            self.dtc.DeleteAllItems()
         else:
-          self.dtc.Append(event.data)
+            self.dtc.Append(event.data)
 
     def OnDisconnect(self,event): #disconnect connection to ECU
         self.ThreadControl=666
@@ -620,7 +620,7 @@ the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  0211
 
         #set actual serial port choice
         if (self.COMPORT != 0) and (self.COMPORT in ports):
-          rb.SetSelection(ports.index(self.COMPORT))
+            rb.SetSelection(ports.index(self.COMPORT))
 
 
         sizer.Add(self.OpenLinkButton)
@@ -640,7 +640,7 @@ the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  0211
 
             #create section
             if self.config.sections()==[]:
-              self.config.add_section("pyOBD")
+                self.config.add_section("pyOBD")
             #set and save COMPORT
             self.COMPORT = ports[rb.GetSelection()]
             self.config.set("pyOBD","COMPORT",self.COMPORT)

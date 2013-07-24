@@ -88,11 +88,11 @@ def pto_status(code):
 
 # Converts argument, hexadecimal, into OBD compliance type
 def compliance(code):
- for i in OBD_COMPLIANCE:
-     if i.hex_format.equal(code):
-        return i.compliance_description
-     else:
-         return 0
+    for i in OBD_COMPLIANCE:
+        if i.hex_format.equal(code):
+            return i.compliance_description
+        else:
+            return 0
 
 # Converts argument, hexadecimal, into the Fuel Trim Percentage
 def fuel_trim_percent(code):

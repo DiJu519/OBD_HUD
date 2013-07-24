@@ -207,4 +207,3 @@ if(not os.path.exists(path)):
 
 # Create an instance of OBD_Recorder, passing in path and items arguments
 o = OBD_Recorder(path, logitems)
-
