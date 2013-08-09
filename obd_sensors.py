@@ -208,26 +208,6 @@ OBD_COMPLIANCE = {
     0xD:"                     JOBD, EOBD and OBD II",
     }
 
-
-
-# Secondary air status class definition
-class Air_Sec:
-    def __init__(self, description, hex_format):
-        self.description = description
-        self.hex_format = hex_format
-
-# List of Secondary air status'
-AIR_SECONDARY = [
-    Air_Sec("  Upstream from catalytic converter", "AO"),
-    Air_Sec("Downstream from catalytic converter", "A1"),
-    Air_Sec("     From outside atmosphere or off", "A2"),
-    Air_Sec("                        Always Zero", "A3"),
-    Air_Sec("                        Always Zero", "A3"),
-    Air_Sec("                        Always Zero", "A4"),
-    Air_Sec("                        Always Zero", "A5"),
-    Air_Sec("                        Always Zero", "A6"),
-    Air_Sec("                        Always Zero", "A7")
-    ]
 #___________________________________________________________
 
 def test():
