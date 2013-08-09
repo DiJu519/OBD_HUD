@@ -88,11 +88,12 @@ def pto_status(code):
 
 # Converts argument, hexadecimal, into OBD compliance type
 def compliance(code):
-    for i in OBD_COMPLIANCE:
-        if i.hex_format.equal(code):
-            return i.compliance_description
-        else:
-            return 0
+    code = int(code, 16)
+    try:
+        res = OBD_COMPLIANCE[code]
+    except KeyError:
+        res = "unknown compliance"
+    return res
 
 # Converts argument, hexadecimal, into the Fuel Trim Percentage
 def fuel_trim_percent(code):
@@ -191,29 +192,22 @@ SENSORS = [
     Sensor("engine_mil_time"       , "  Engine Run with MIL on", "014D", sec_to_min       ,"min"    ),
     ]
 
-# OBD compliance class definition
-class OBD_Comply:
-    def __init__(self, compliance_description, hex_format, binary_format,):
-        self.compliance_description = compliance_description
-        self.hex_format = hex_format
-        self.binary_format = binary_format
+OBD_COMPLIANCE = {
+    0x1:"                 OBD II as defined by CARB",
+    0x2:"                     OBD as defined by EPA",
+    0x3:"                          OBD I and OBD II",
+    0x4:"                                     OBD I",
+    0x5:"Not meant to comply with any OBD standard ",
+    0x6:"                             EOBD (Europe)",
+    0x7:"                           EOBD and OBD II",
+    0x8:"                            EOBD and OBD I",
+    0x9:"                    EOBD, OBD I and OBD II",
+    0xA:"                              JOBD (Japan)",
+    0xB:"                           JOBD and OBD II",
+    0xC:"                             JOBD and EOBD",
+    0xD:"                     JOBD, EOBD and OBD II",
+    }
 
-# List of OBD compliance types
-OBD_COMPLIANCE = [
-    OBD_Comply("                 OBD II as defined by CARB", "0x01", "00000001b" ),
-    OBD_Comply("                     OBD as defined by EPA", "0x02", "00000010b" ),
-    OBD_Comply("                          OBD I and OBD II", "0x03", "00000011b" ),
-    OBD_Comply("                                     OBD I", "0x04", "00000100b" ),
-    OBD_Comply("Note ment to comply with any OBD standard ", "0x05", "00000101b" ),
-    OBD_Comply("                             EOBD (Europe)", "0x06", "00000110b" ),
-    OBD_Comply("                           EOBD and OBD II", "0x07", "00000111b" ),
-    OBD_Comply("                            EOBD and OBD I", "0x08", "00001000b" ),
-    OBD_Comply("                    EOBD, OBD I and OBD II", "0x09", "00001001b" ),
-    OBD_Comply("                              JOBD (Japan)", "0x0A", "00001010b" ),
-    OBD_Comply("                           JOBD and OBD II", "0x0B", "00001011b" ),
-    OBD_Comply("                             JOBD and EOBD", "0x0C", "00001100b" ),
-    OBD_Comply("                     JOBD, EOBD and OBD II", "0x0D", "00001101b" )
-    ]
 
 
 # Secondary air status class definition
