@@ -42,7 +42,7 @@ def intake_m_pres(code): # in kPa
 # Converts argument, hexadecimal, into the Engine RPM
 def rpm(code):
     code = int(code, 16)
-    return code / 4
+    return code / 4.0
 
 # Converts argument, hexadecimal, into the vehicle's Speed
 def speed(code):
@@ -62,7 +62,7 @@ def timing_advance(code):
 # Converts argument, hexadecimal seconds, into minutes
 def sec_to_min(code):
     code = int(code, 16)
-    return code / 60
+    return code / 60.0
 
 # Coverts argument, hexadecimal, into temperature
 def temp(code):
