@@ -75,16 +75,15 @@ def fuel_pres(code):
     return code * 3
 
 def cpass(code):
-    print code
     return code
 
 # Converts argument, hexadecimal, into PTO status
 def pto_status(code):
     code = int(code, 16)
     if code is 1:
-        return code
+        return "true"
     else:
-        return 0
+        return "false"
 
 # Converts argument, hexadecimal, into OBD compliance type
 def compliance(code):
@@ -112,6 +111,8 @@ def sensor_pos(code):
 
 # Converts argument, hexadecimal, into a Diagnostic Trouble Code
 def dtc_decrypt(code):
+    if len(code) < 8:
+        return code
     #first byte is byte after PID and without spaces
     num = int(code[:2], 16) #A byte
     res = []
