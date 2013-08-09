@@ -148,12 +148,16 @@ def hex_to_bitstring(hex_str):
 
 # Sensor class definition
 class Sensor:
-    def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u):
+    def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u, testdata = ["AB"]):
         self.shortname = shortName
         self.name = sensorName
         self.cmd = sensorcommand
         self.value = sensorValueFunction
         self.unit = u
+        self.testdata = testdata
+    def selftest(self):
+        for d in self.testdata:
+            print("{} :: {} {}".format(self.name, self.value(d), self.unit))
 
 # List of sensors that are able to be read through the OBD
 SENSORS = [
@@ -185,9 +189,9 @@ SENSORS = [
     Sensor("o222"                  , "        O2 Sensor: 2 - 2", "0119", fuel_trim_percent,"%"      ),
     Sensor("o223"                  , "        O2 Sensor: 2 - 3", "011A", fuel_trim_percent,"%"      ),
     Sensor("o224"                  , "        O2 Sensor: 2 - 4", "011B", fuel_trim_percent,"%"      ),
-    Sensor("obd_standard"          , "         OBD Designation", "011C", compliance       ,""       ),
+    Sensor("obd_standard"          , "         OBD Designation", "011C", compliance       ,""       ,["D","7","AB"]),
     Sensor("o2_sensor_position_b"  ,"  Location of O2 sensors" , "011D", cpass            ,""       ),
-    Sensor("aux_input"             , "        Aux input status", "011E", pto_status       ,"bool"   ),
+    Sensor("aux_input"             , "        Aux input status", "011E", pto_status       ,""       ),
     Sensor("engine_time"           , " Time Since Engine Start", "011F", sec_to_min       ,"min"    ),
     Sensor("engine_mil_time"       , "  Engine Run with MIL on", "014D", sec_to_min       ,"min"    ),
     ]
@@ -211,8 +215,8 @@ OBD_COMPLIANCE = {
 #___________________________________________________________
 
 def test():
-    for i in SENSORS:
-        print i.name, i.value("F")
+    for s in SENSORS:
+        s.selftest()
 
 if __name__ == "__main__":
     test()
