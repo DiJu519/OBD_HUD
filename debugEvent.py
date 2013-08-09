@@ -26,7 +26,7 @@ try:
     EVT_DEBUG_ID = 1010
     def debug_display(window, position, message):
         if window is None:
-            print message
+            print(message)
         else:
             wx.PostEvent(window, DebugEvent([position, message]))
 
@@ -39,4 +39,4 @@ try:
             self.data = data
 except ImportError as e:
     def debug_display(window, position, message):
-        print message
+        print(message)

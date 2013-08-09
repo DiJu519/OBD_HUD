@@ -40,7 +40,7 @@ class OBD_Recorder():
         self.connect()
         # Verify the instance of OBD_Recorder is connected
         if not self.is_connected():
-            print "Not connected"
+            print("Not connected")
         # Record data to the log file
         self.record_data()
 
@@ -50,7 +50,7 @@ class OBD_Recorder():
     def connect(self):
         # Collect the list of all the open serial ports
         portnames = scanSerial()
-        print portnames
+        print(portnames)
         # Loop through the list of port names
         for port in portnames:
             # Create instance of OBDPort
@@ -65,7 +65,7 @@ class OBD_Recorder():
                 break
         # Verify the serial port is connected
         if(self.port):
-            print "Connected to "+self.port.port.name
+            print("Connected to "+self.port.port.name)
 
     # Method to return the name of the port that is currently open
     # in the case where there is no port open, the method will return 'None'
@@ -80,7 +80,7 @@ class OBD_Recorder():
             if(item == e.shortname):
                 # Add the sensor's index to the
                 self.sensorlist.append(index)
-                print "Logging item: " + e.name
+                print("Logging item: " + e.name)
                 break
 
      # Method to record data
@@ -88,7 +88,7 @@ class OBD_Recorder():
         # Verify that there is an open port, if there is no port available, return "None"
         if(self.port is None):
             return None
-        print "Logging started"
+        print("Logging started")
         # Loop to collect data for log
         while 1:
             localtime = datetime.now()
@@ -146,7 +146,7 @@ class OBD_Recorder():
         # Calculate the current ratio
         current_gear_ratio = (rps*tyre_circumference)/(mps*primary_gear*final_drive)
 
-        print current_gear_ratio
+        print(current_gear_ratio)
         # Determine current gear
         gear = min((abs(current_gear_ratio - i), i) for i in self.gear_ratios)[1]
         return gear

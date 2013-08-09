@@ -81,4 +81,4 @@ def scanSerial():
 
 
 test = scanSerial()
-print test
+print(test)
