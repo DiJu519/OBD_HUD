@@ -1,6 +1,6 @@
  #!/usr/bin/env python
 ###########################################################################
-# debugEvent.py
+# obd_sensors.py
 #
 # Copyright 2004 Donour Sizemore (donour@uchicago.edu)
 # Copyright 2009 Secons Ltd. (www.obdtester.com)
@@ -23,13 +23,15 @@
 ###########################################################################
 try:
     import wx
+    
     EVT_DEBUG_ID = 1010
+    
     def debug_display(window, position, message):
         if window is None:
-            print(message)
+            print message
         else:
             wx.PostEvent(window, DebugEvent([position, message]))
-
+       
     class DebugEvent(wx.PyEvent):
         """Simple event to carry arbitrary result data."""
         def __init__(self, data):
@@ -39,4 +41,5 @@ try:
             self.data = data
 except ImportError as e:
     def debug_display(window, position, message):
-        print(message)
+        print message
+    
