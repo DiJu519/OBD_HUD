@@ -21,7 +21,9 @@ Completed using a  modification/combination of the pyOBD software and a UI creat
 
 Group Members:
 Julian Di Leonardo
+
 Jacob Gilson
+
 Jake Nusca
 
 
