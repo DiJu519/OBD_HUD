@@ -23,7 +23,7 @@ def main():
     start_gtk_thread()
 
     # Create a proper file:// URL pointing to demo.xhtml:
-    file = os.path.abspath('simulator.xhtml')
+    file = os.path.abspath('ui.xhtml')
     uri = 'file://' + urllib.pathname2url(file)
     browser, web_recv, web_send = \
         synchronous_gtk_message(launch_browser)(uri,

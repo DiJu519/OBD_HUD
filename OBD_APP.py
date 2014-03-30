@@ -67,7 +67,7 @@ class OBD_Capture():
         start_gtk_thread()
 
          # Create a proper file:// URL pointing to demo.xhtml:
-        file = os.path.abspath('demo.xhtml')
+        file = os.path.abspath('ui.xhtml')
         uri = 'file://' + urllib.pathname2url(file)
         browser, web_recv, web_send = \
             synchronous_gtk_message(launch_browser)(uri,
@@ -107,11 +107,13 @@ class OBD_Capture():
                     (name, value, unit) = self.port.sensor(sensorIndex)
                     log_string += name + " = " + str(value) + " " + str(unit) + "\n"
                     
-                    web_send('document.getElementById("uptime-value").innerHTML = %s' %
-                     to_json('%f' % value))
+                    web_send('document.getElementById('+ "\"" + str(supportedSensor[1].shortname)+ "\""  ').innerHTML = %s' %
+                     to_json('%s' % str(value)))
                 
-                print log_string,
+                print log_string
                 print "FUCK"
+                print name
+                
                 time.sleep(0.5)
 
         except KeyboardInterrupt:
