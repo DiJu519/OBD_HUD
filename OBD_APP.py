@@ -113,8 +113,6 @@ class OBD_Capture():
                 print log_string
                 print "FUCK"
                 print name
-                
-                time.sleep(0.5)
 
         except KeyboardInterrupt:
             self.port.close()

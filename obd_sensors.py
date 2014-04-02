@@ -45,7 +45,9 @@ def rpm(code):
 
 def speed(code):
     code = hex_to_int(code)
-    return code / 1.609
+    #code = code *1.609
+    code = int(code)
+    return code
 
 def percent_scale(code):
     code = hex_to_int(code)
@@ -61,7 +63,10 @@ def sec_to_min(code):
 
 def temp(code):
     code = hex_to_int(code)
-    return code - 40 
+    code = (code - 32)*(5/9)
+    code = code/10000000
+    code = int(code)
+    return code
 
 def cpass(code):
     #fixme
