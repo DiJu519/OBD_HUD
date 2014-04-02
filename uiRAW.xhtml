@@ -72,101 +72,28 @@ document.addEventListener('DOMContentLoaded', document_ready, false);
   </head>
 
   <body>
-  	<div style="width:854px; height:1px; display:block;"></div>
-	<div class="hudbox">
-		<div class="speedbox">
-			<div class="speed">
-				<div id="speed">88</div>
-			</div>
-			<div class="speed_label">KM/H</div>
-		</div>
-		<div class="rpmbox">
-			
-			<div class="rpm_numbers">
-				<div class="rpm_number top">9</div>
-				<div class="rpm_number bottom">1</div>
-			</div>
-			<div class="rpm_outline">
-				<div class="rpm_meter" id="rpm_meter"></div>
-			</div>
-			<div class="rpm_label">RPM</div>
-			<div class="rpm_label_2"><span>x</span>1000</div>
-			<span id="rpm" class="hidden">6125</span>
-		</div>
-		
-		<div class="tempbox">
-			
-			<div class="temp_numbers">
-				<div class="temp_number top">130&deg;</div>
-				<div class="temp_number bottom">40&deg;</div>
-			</div>
-			<div class="temp_outline"></div>
-			<div class="temp_arrow" id="temp_arrow"></div>
-			
-			<div class="temp_label">TEMP</div>
-			<span id="temp" class="hidden">90</span>
-		</div>
-	</div>
 
-	<span id="throttle_pos" class="hidden">?</span>
+    <h1>HUD Data - Simulator</h1>
+
+    <p style="font-size:50px"> 
+      temp
+      <span id="temp" style="font-size:50px">?</span> F.
+    </p>
+
+    <p style="font-size:50px">
+      RPM
+      <span id="rpm">?</span>
+    </p>
+    <p style="font-size:50px">
+      Speed
+      <span id="speed">?</span> M/H.
+    </p>
+    <p style="font-size:50px">
+      Throttle Position
+      <span id="throttle_pos">?</span> %.
+    </p>
+
 
   </body>
-  
-	<script type="text/javascript">
-	//<![CDATA[
-		(function() {
-			setInterval(function(){refreshAll()},100);
-		})();
-
-		var refreshRPM = function()
-		{
-			var rpm_meter = document.getElementById("rpm_meter");
-			var rpm = document.getElementById("rpm").innerHTML;
-			var maxRPM = 9000;
-			var rpm_percent = Math.ceil((rpm / maxRPM) * 100);
-			rpm_meter.style.height = rpm_percent+'%';	
-		}
-		var refreshTemp = function()
-		{
-			var temp_arrow = document.getElementById("temp_arrow");
-			var temp = document.getElementById("temp").innerHTML;
-			var maxTemp = 130-40;
-			var max
-			
-			temp = temp-40;
-			if(temp <= 0) temp = 0;
-			var arrowOffset = ((temp / maxTemp) * 20) + 6; // 6em offset from bottom, 20em range, all arbitrary
-			
-			temp_arrow.style.bottom = arrowOffset+'em';	
-		}
-
-		var refreshAll = function()
-		{
-			refreshRPM();
-			refreshTemp();
-		}
-	//]]>
-	</script>	
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

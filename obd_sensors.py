@@ -36,7 +36,8 @@ def throttle_pos(code):
 
 def intake_m_pres(code): # in kPa
     code = hex_to_int(code)
-    return code / 0.14504
+    return code
+    #return code / 0.14504
     
 def rpm(code):
     code = hex_to_int(code)

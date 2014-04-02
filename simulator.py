@@ -40,19 +40,19 @@ def main():
         current_time = time.time()
 
         i = i + 1
-        temp = 120 + i
+        temp = 30 + i
         rpm = i * 100 + 300
         speed = i
         throttle_pos = i
 
         web_send('document.getElementById("temp").innerHTML = %s' %
-                     to_json('%f' % temp))
+                     to_json('%d' % temp))
         web_send('document.getElementById("rpm").innerHTML = %s' %
-                     to_json('%f' % rpm))
+                     to_json('%d' % rpm))
         web_send('document.getElementById("speed").innerHTML = %s' %
-                     to_json('%f' % speed))
+                     to_json('%d' % speed))
         web_send('document.getElementById("throttle_pos").innerHTML = %s' %
-                     to_json('%f' % throttle_pos))
+                     to_json('%d' % throttle_pos))
 
         if (i >= 100):
             i = 0

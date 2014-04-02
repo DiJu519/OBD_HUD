@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+@font-face{
+	font-family:"digital-dismay";
+	src:url('fonts/digital-dismay.otf');
+}
+@font-face{
+	font-family:"BebasNeue";
+	src:url('fonts/BebasNeue.otf');
+}
+/* fix the box model */
+*{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+
+html,body{background-color:black;color:red;font-size:0.75em;}
+.clear{float:none;clear:both;padding:0;margin:0;}
+.hidden{display:none;}
+
+.hudbox{margin-top:10%;}
+
+.speedbox{width:60%;float:left;}
+.speed{font-family:'digital-dismay';font-size:35em;width:100%;text-align:right;line-height:75%;padding-right:0em;}
+.speed_label{font-family:'BebasNeue';font-size:5em;text-align:right;margin-top:-0.1em;padding-right:0.3em;letter-spacing:0.03em;}
+
+.rpmbox{float:left;padding-top:2em;}
+.rpm_outline{width:7em;height:23em;border:1em solid red;position:relative;overflow:hidden}
+.rpm_meter{width:100%;height:0%;background-color:red;position:absolute;bottom:0;}
+.rpm_numbers{float:left;font-family:'BebasNeue';height:23.5em;text-align:right;position:relative;width:4em;margin-right:1em;}
+.rpm_number{font-size:4em;}
+.rpm_number.bottom{position:absolute;bottom:0;right:0;}
+.rpm_label{font-family:'BebasNeue';font-size:5em;text-align:center;margin-top:0.15em;letter-spacing:0.03em;margin-left:1em;}
+.rpm_label_2{font-family:'BebasNeue';font-size:2em;text-align:right;margin-top:-0.7em;letter-spacing:0.05em;margin-left:2em;margin-right:0.1em;}
+.rpm_label_2 span{font-size:0.7em;}
+
+.tempbox{float:left;padding-top:2em;position:relative;margin-left:3em;}
+.temp_outline{width:3em;height:23em;border:1em solid red;border-left:none;position:relative;overflow:hidden}
+.temp_label{font-family:'BebasNeue';font-size:5em;text-align:right;margin-top:0.15em;margin-right:-0.6em;}
+.temp_arrow{width:0;height:0;border-top:2em solid transparent;border-bottom:2em solid transparent;border-right:2em solid red;float:right;position:absolute;right:-2em;bottom:6em;}
+.temp_numbers{float:left;font-family:'BebasNeue';height:21.1em;text-align:right;position:relative;width:4em;margin-right:-1.5em;margin-top:1em;}
+.temp_number{font-size:3em;}
+.temp_number.bottom{position:absolute;bottom:0;right:0;}
